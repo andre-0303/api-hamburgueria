@@ -1,12 +1,19 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import connectDB from './config/db.js'; // <- com .js no final
+import connectDB from './config/db.js'; 
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+
 
 dotenv.config();
 
 const app = express();
 connectDB();
+
+const swaggerDocument = YAML.load('./swagger.yaml');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 app.use(express.json());
 
